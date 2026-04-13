@@ -1,6 +1,6 @@
-# CI APK + Health Script
+# Backend-Free APK CI Script
 
-Run one command to build and validate deployment health:
+Run one command to build a backend-free APK:
 
 ```bash
 /app/scripts/ci_build_apk_health.sh
@@ -14,7 +14,9 @@ If Java/Gradle is unavailable in the environment, run:
 
 What it does:
 - Builds Lumina web bundle (`/app/_uploaded_src/lumina`)
-- Syncs static bundle to backend (`/app/backend/lumina_dist`)
-- Exports Android JS bundle via Expo
+- Copies bundled web assets into Android app assets directory
 - Optionally builds debug APK via Gradle
-- Verifies health endpoints (`/`, `/api/`, `/api/lumina/`)
+- Verifies generated artifact paths locally
+
+APK output:
+- `/app/_uploaded_src/lumina/android/app/build/outputs/apk/debug/app-debug.apk`

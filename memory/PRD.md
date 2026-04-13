@@ -71,6 +71,12 @@ Harden and complete the uploaded Lumina mobile-web strobe app against critical r
   - Added JDK 21 auto-detection in CI script (`/opt/jdk-21`) for AGP compatibility.
   - Added Android AAPT2 QEMU wrapper (`/app/_uploaded_src/lumina/android/aapt2`) and gradle override for ARM64 runner compatibility.
   - Verified full script run **without** `--skip-gradle`: `BUILD SUCCESSFUL`, APK generated at `/app/_uploaded_src/lumina/android/app/build/outputs/apk/debug/app-debug.apk`.
+- Backend-free APK follow-up (same date):
+  - Removed backend static dependency route (`/api/lumina`) from backend server.
+  - Replaced Expo preview root screen with backend-free status screen (no runtime backend calls).
+  - Updated CI script to backend-free flow: Lumina build → sync bundle directly to Android assets → Gradle APK build → local artifact checks.
+  - Updated Lumina build base for offline packaging (no `/api/lumina` prefix).
+  - Rebuilt APK successfully with updated checksum documented in `/app/memory/apk_artifact.md`.
 
 ## Validation Run
 - ESLint: passed (`/app/_uploaded_src/lumina/**/*.{ts,tsx}`)

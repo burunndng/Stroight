@@ -1,65 +1,35 @@
-import { useEffect, useMemo, useState } from "react";
-import { View, StyleSheet, ActivityIndicator, Text, Platform } from "react-native";
+import { View, StyleSheet, Text, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { WebView } from "react-native-webview";
-
-const EXPO_PUBLIC_BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL;
+import { Ionicons } from "@expo/vector-icons";
 
 export default function Index() {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  const luminaUrl = useMemo(() => {
-    if (!EXPO_PUBLIC_BACKEND_URL) return "";
-    return `${EXPO_PUBLIC_BACKEND_URL.replace(/\/$/, "")}/api/lumina/`;
-  }, []);
-
-  useEffect(() => {
-    if (Platform.OS === "web" && luminaUrl) {
-      globalThis.location?.replace(luminaUrl);
-      return;
-    }
-
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 6000);
-
-    return () => clearTimeout(timer);
-  }, [luminaUrl]);
+  const isWeb = Platform.OS === "web";
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        {loading && (
-          <View style={styles.loadingOverlay}>
-            <ActivityIndicator size="large" color="#3AA6FF" />
-            <Text style={styles.loadingText}>Loading Lumina…</Text>
-          </View>
-        )}
+        <View style={styles.card}>
+          <Ionicons name="flash-outline" size={38} color="#8CC8FF" />
+          <Text style={styles.title}>Lumina Backend-Free Mode</Text>
+          <Text style={styles.body}>
+            APK generation now runs fully offline without backend or MongoDB dependency.
+          </Text>
 
-        {Platform.OS === "web" ? (
-          <View style={styles.errorWrap}>
-            <Text style={styles.loadingText}>Opening Lumina preview…</Text>
+          <View style={styles.badge}>
+            <Text style={styles.badgeText}>Torch strobe is packaged in APK build flow</Text>
           </View>
-        ) : error ? (
-          <View style={styles.errorWrap}>
-            <Text style={styles.errorTitle}>Preview issue</Text>
-            <Text style={styles.errorText}>{error}</Text>
-          </View>
-        ) : (
-          <WebView
-            source={{ uri: luminaUrl }}
-            style={styles.webview}
-            onLoadEnd={() => setLoading(false)}
-            onError={(e) => {
-              setLoading(false);
-              setError(e.nativeEvent.description || "Unable to load Lumina.");
-            }}
-            javaScriptEnabled
-            domStorageEnabled
-            allowsInlineMediaPlayback
-          />
-        )}
+
+          <Text style={styles.pathLabel}>APK artifact path</Text>
+          <Text style={styles.pathText}>
+            /app/_uploaded_src/lumina/android/app/build/outputs/apk/debug/app-debug.apk
+          </Text>
+
+          {isWeb && (
+            <Text style={styles.webNote}>
+              Web preview now shows status only. Use generated APK on Android device.
+            </Text>
+          )}
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -73,44 +43,58 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#06080C",
-  },
-  webview: {
-    flex: 1,
-    backgroundColor: "#06080C",
-  },
-  loadingOverlay: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
     justifyContent: "center",
     alignItems: "center",
-    zIndex: 5,
-    backgroundColor: "transparent",
-    pointerEvents: "none",
-    gap: 10,
   },
-  loadingText: {
-    color: "#9AA7BC",
-    fontSize: 14,
-    fontWeight: "600",
+  card: {
+    width: "88%",
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: "#1D293D",
+    backgroundColor: "#0B1220",
+    padding: 22,
+    gap: 12,
   },
-  errorWrap: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 24,
-    gap: 10,
-  },
-  errorTitle: {
+  title: {
     color: "#FFFFFF",
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: "700",
   },
-  errorText: {
+  body: {
     color: "#BFC7D5",
+    fontSize: 15,
+    lineHeight: 22,
+  },
+  badge: {
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: "#21486E",
+    backgroundColor: "#102239",
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    alignSelf: "flex-start",
+  },
+  badgeText: {
+    color: "#97D3FF",
+    fontSize: 12,
+    fontWeight: "600",
+  },
+  pathLabel: {
+    color: "#8C98AB",
+    fontSize: 12,
+    fontWeight: "700",
+    textTransform: "uppercase",
+    letterSpacing: 0.6,
+  },
+  pathText: {
+    color: "#D8E2F0",
     fontSize: 14,
-    textAlign: "center",
+    lineHeight: 20,
+  },
+  webNote: {
+    marginTop: 6,
+    color: "#F8C170",
+    fontSize: 13,
+    lineHeight: 18,
   },
 });
