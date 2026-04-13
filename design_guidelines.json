@@ -1,0 +1,50 @@
+{
+  "theme": "dark",
+  "archetype": "Archetype 2: The Performance Pro",
+  "colors": {
+    "primary": "#FFFFFF",
+    "background": "#0A0A0A",
+    "text": "#FFFFFF",
+    "accent": "#FF3B30",
+    "surface": "#1A1A1A",
+    "border": "#333333"
+  },
+  "fonts": {
+    "heading": "Manrope",
+    "body": "Inter"
+  },
+  "typography": {
+    "h1": "text-4xl sm:text-5xl lg:text-6xl tracking-tight font-bold",
+    "h2": "text-2xl sm:text-3xl lg:text-4xl tracking-tight font-semibold",
+    "body": "text-base leading-relaxed",
+    "small": "text-sm uppercase tracking-[0.2em]"
+  },
+  "spacing_and_layout": {
+    "container_padding": "p-6 md:p-12",
+    "grid_gap": "gap-6",
+    "surface_radius": "rounded-2xl"
+  },
+  "instructions_to_main_agent": [
+    "Phase 0.1: Fix applyTorch in src/hooks/useTorch.ts to return Promise<boolean> instead of swallowing errors. Ensure errors propagate to the strobe loop.",
+    "Phase 0.2: Add NaN/zero guard to createScreenStrobe in src/lib/strobe.ts: `if (isNaN(hz) || isNaN(duty) || hz <= 0 || !isFinite(hz)) { rafId = requestAnimationFrame(frame); return; }`",
+    "Phase 0.3: Add window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON) to MainActivity.java to prevent screen sleep during sessions.",
+    "Phase 0.4: Save MediaStream reference in useTorch.ts and ensure all tracks are stopped in releaseTorch: `stream?.getTracks().forEach(t => t.stop())` to prevent camera leaks.",
+    "Phase 1.1: Optimize Session.tsx performance by decoupling screenOn from React state. Use React refs (`useRef<HTMLDivElement>`) and direct DOM manipulation (`ref.current.style.opacity`) for the strobe flash overlay to avoid render storms.",
+    "Phase 1.2: Add `visibilitychange` listener in Session.tsx. On `hidden`: pause strobe/audio, stop torch. On `visible`: navigate back to Home screen to prevent stale state.",
+    "Phase 1.3: Track consecutive `applyTorch` failures in the strobe engine. Fallback to screen mode after 3 failures and trigger a UI toast ('Torch unavailable — using screen mode').",
+    "Phase 2.1: Keep scoped permission grant in Android WebChromeClient as requested.",
+    "Phase 2.2: Cap session duration at 30 minutes. Use `performance.now()` for timing instead of `Date.now()` to prevent clock drift issues.",
+    "Phase 3.1: Enable R8/ProGuard rules in Android app.",
+    "Phase 3.2: Remove unnecessary FLASHLIGHT permission from AndroidManifest.xml.",
+    "Phase 3.3: Implement network security config as required for the webview.",
+    "Phase 3.4: Connect `onBeat` callback in src/lib/audio.ts for audio-visual sync (only for minimal sound type).",
+    "Phase 4.1: Write tests for `getParamsAt` guards (zero-duration, negative time, NaN values).",
+    "Phase 4.2: Write tests for `applyTorch` failure detection and fallback.",
+    "Phase 4.3: Update Home.tsx PresetCard to conditionally display `feasible={true}` based on `torchFeasible(preset.hz, preset.duty)` and indicate screen-only presets.",
+    "Phase 4.4: Add audio context overlap guard in `createAudio` to prevent double-start/overlapping sessions."
+  ],
+  "image_urls": {},
+  "testing": {
+    "attributes": "All interactive elements (buttons, inputs, preset cards) must include a 'data-testid' attribute (e.g., data-testid='preset-card-gamma-40')."
+  }
+}
