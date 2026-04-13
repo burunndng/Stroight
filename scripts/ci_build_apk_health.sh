@@ -55,6 +55,12 @@ require_cmd curl
 require_cmd node
 require_cmd npx
 
+# Prefer JDK 21 for Android Gradle Plugin 8.13+ compatibility.
+if [[ -x "/opt/jdk-21/bin/java" ]]; then
+  export JAVA_HOME="/opt/jdk-21"
+  export PATH="$JAVA_HOME/bin:$PATH"
+fi
+
 if [[ ! -f "$FRONTEND_DIR/.env" ]]; then
   echo "ERROR: Missing $FRONTEND_DIR/.env"
   exit 1
