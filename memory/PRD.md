@@ -67,6 +67,10 @@ Harden and complete the uploaded Lumina mobile-web strobe app against critical r
   - Added one-command script: `/app/scripts/ci_build_apk_health.sh`.
   - Script runs Lumina build, backend static sync, Expo Android export, optional Gradle APK assembly, and endpoint health verification.
   - Added docs in `/app/README.md` including `--skip-gradle` mode for environments without Java.
+  - Installed JDK + Android SDK tooling in runner and resolved ARM64 APK build issues.
+  - Added JDK 21 auto-detection in CI script (`/opt/jdk-21`) for AGP compatibility.
+  - Added Android AAPT2 QEMU wrapper (`/app/_uploaded_src/lumina/android/aapt2`) and gradle override for ARM64 runner compatibility.
+  - Verified full script run **without** `--skip-gradle`: `BUILD SUCCESSFUL`, APK generated at `/app/_uploaded_src/lumina/android/app/build/outputs/apk/debug/app-debug.apk`.
 
 ## Validation Run
 - ESLint: passed (`/app/_uploaded_src/lumina/**/*.{ts,tsx}`)
