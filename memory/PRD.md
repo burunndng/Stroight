@@ -57,6 +57,12 @@ Harden and complete the uploaded Lumina mobile-web strobe app against critical r
   - Hosted generated bundle from backend at `/api/lumina` via `StaticFiles`.
   - Updated Expo index route to open Lumina preview URL directly on web (preview compatibility) and use WebView on native.
   - Verified preview now resolves to `https://strobe-engine-audit.preview.emergentagent.com/api/lumina/` and renders Lumina safety screen.
+- Deployment readiness follow-up (same date):
+  - Added missing `EXPO_PACKAGER_PROXY_URL` to `frontend/.env`.
+  - Re-ran deploy readiness audit: now PASS with no blockers.
+  - Re-validated health checks: `/`, `/api/`, `/api/lumina/` all return HTTP 200.
+  - Android export check passed with `expo export --platform android --no-bytecode`.
+  - Local APK assembly remains blocked in container due missing Java (`JAVA_HOME` not set).
 
 ## Validation Run
 - ESLint: passed (`/app/_uploaded_src/lumina/**/*.{ts,tsx}`)
