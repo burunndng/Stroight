@@ -63,6 +63,10 @@ Harden and complete the uploaded Lumina mobile-web strobe app against critical r
   - Re-validated health checks: `/`, `/api/`, `/api/lumina/` all return HTTP 200.
   - Android export check passed with `expo export --platform android --no-bytecode`.
   - Local APK assembly remains blocked in container due missing Java (`JAVA_HOME` not set).
+- CI automation follow-up (same date):
+  - Added one-command script: `/app/scripts/ci_build_apk_health.sh`.
+  - Script runs Lumina build, backend static sync, Expo Android export, optional Gradle APK assembly, and endpoint health verification.
+  - Added docs in `/app/README.md` including `--skip-gradle` mode for environments without Java.
 
 ## Validation Run
 - ESLint: passed (`/app/_uploaded_src/lumina/**/*.{ts,tsx}`)
