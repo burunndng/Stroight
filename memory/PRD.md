@@ -52,6 +52,11 @@ Harden and complete the uploaded Lumina mobile-web strobe app against critical r
   - Added test for torch failure fallback trigger.
   - Updated Home preset feasibility to use `torchFeasible(...)` (removes hardcoded `true`).
   - Added audio tests for minimal beat callback and overlap hard-stop behavior.
+- Preview integration follow-up (same date):
+  - Built Lumina web bundle with base path `/api/lumina/`.
+  - Hosted generated bundle from backend at `/api/lumina` via `StaticFiles`.
+  - Updated Expo index route to open Lumina preview URL directly on web (preview compatibility) and use WebView on native.
+  - Verified preview now resolves to `https://strobe-engine-audit.preview.emergentagent.com/api/lumina/` and renders Lumina safety screen.
 
 ## Validation Run
 - ESLint: passed (`/app/_uploaded_src/lumina/**/*.{ts,tsx}`)

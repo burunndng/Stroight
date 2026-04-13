@@ -1,4 +1,5 @@
 from fastapi import FastAPI, APIRouter
+from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -54,6 +55,10 @@ async def get_status_checks():
 
 # Include the router in the main app
 app.include_router(api_router)
+
+LUMINA_DIST_DIR = ROOT_DIR / "lumina_dist"
+if LUMINA_DIST_DIR.exists():
+    app.mount("/api/lumina", StaticFiles(directory=LUMINA_DIST_DIR, html=True), name="lumina")
 
 app.add_middleware(
     CORSMiddleware,
